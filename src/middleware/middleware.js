@@ -49,7 +49,7 @@ const authorization = async function (req, res, next) {
 
     let decodedtoken = jwt.verify(token, "todo");
     if(!decodedtoken) return res.status(403).send({status:false,msg:"Incorrect token"})
-    if (decodedtoken.userId != findTodo.userId)
+    if (decodedtoken.UserId != findTodo.userId)
       return res.status(401).send({ status: false, msg: "Sorry,You cannot access" });
 
     next(); //if match then move the execution to next

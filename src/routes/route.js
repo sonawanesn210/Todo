@@ -7,13 +7,15 @@ router.post("/register",createuser)
 
 router.post('/signin',login)
 
-router.post('/create-todo',authentication,authorization,createTodo)
+router.post('/create-todo',authentication,createTodo)
 
 router.patch('/update-todo/:id',authentication,authorization,updateTodo)
 
-router.get('/todo',authentication,authorization,getTodos)
+router.get('/todo',authentication,getTodos)
 
 router.delete('/todo/:id',authentication,authorization,deleteTodo)
+
+/* router.all('*') */
 
 
 module.exports=router

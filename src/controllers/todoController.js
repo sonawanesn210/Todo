@@ -88,27 +88,30 @@ const updateTodo = async (req, res) => {
             }
         }
 
-        const todoDetails = await todoModel.findOne({ _id: id })
+        const todoDetails = await todoModel.findOne({_id:id })
+       
         if (!todoDetails) {
             return res.status(404).send({ status: false, message: "No todo found this todoId" })
         }
-
-        if (!req.body.title) {
-            return res.status(400).send({ status: false, message: "Please provide data to update" })
+        let title=req.body.title
+        if (!title) {
+            return res.status(400).send({ status: false, message: "Please provide data to update and you can update only title" })
         }
-
+        
         if (req.body.title) {
-            todoDetails.title = req.body.title
+            todoDetails.title=req.body.title
+            if (!isValidTitle(title)) {
+                return res.status(400).send({ status: false, message: "Invalid format of Title", });
+            }
         }
 
-        if (!isValidTitle(title)) {
-            return res.status(400).send({ status: false, message: "Invalid format of Title", });
-        }
+        
 
-        todoDetails.save()
-        return res.status(200).send({ status: true, message: "Success", data: todoDetails })
+         todoDetails.save()
+        return res.status(200).send({ status: true, message: "Success", data: todoDetails }) 
 
-
+         /* let updateTodo = await todoModel.findOneAndUpdate({_id:id},req.body,{new:true})
+        return res.status(200).send({ status: true, message:"Success", data: updateTodo })  */
     }
     catch (err) {
         res.status(500).send({ status: false, error: err.message })
@@ -127,7 +130,7 @@ const getTodos = async (req, res) => {
 
 
     try {
-
+       
         const page = req.query.page ? parseInt(req.query.page) : 0
         const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 0
         const todos = await todoModel.find({}).limit(pageSize).skip(pageSize * page);

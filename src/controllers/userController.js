@@ -107,7 +107,7 @@ const login = async function (req, res) {
   
       var token = jwt.sign(
         { "UserId": findemailpass._id },
-        "todo", /* { expiresIn: '30min' } */  //sectetkey
+        "todo",  { expiresIn: '30min' } //sectetkey
       );
   
   
