@@ -134,7 +134,7 @@ const getTodos = async (req, res) => {
         const page = req.query.page ? parseInt(req.query.page) : 0
         const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 0
         const todos = await todoModel.find({}).limit(pageSize).skip(pageSize * page);
-        res.status(200).send({ status: true, data: todos });
+        res.status(200).send({ count:todos.length,status: true, data: todos});
         return todos;
 
     }

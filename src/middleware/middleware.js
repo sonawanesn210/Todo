@@ -13,10 +13,13 @@ const authentication = async function (req, res, next) {
       return res.status(403).send({ status: false, msg: "Token must be Present" });
     }
 
-    let decodedtoken = jwt.verify(token, "todo"); // to verify that signature is valid or not
-    /* console.log(decodedtoken) */
-    if(!decodedtoken) return res.status(403).send({status:false,msg:"Incorrect token"})
-    next();
+    let decodedtoken = jwt.verify(token, "todo",function(err){
+      if(err){
+        return res.status(403).send({status:false,message:"Invalid Token",Error:err})
+      }else{
+next()
+      }
+    }); 
   } catch (err) {
     res.status(500).send({ status: false, error: err.message });
   }
@@ -47,12 +50,13 @@ const authorization = async function (req, res, next) {
       return res.status(400).send({ status: false, msg: "Incorrect todoId" });
     }
 
-    let decodedtoken = jwt.verify(token, "todo");
-    if(!decodedtoken) return res.status(403).send({status:false,msg:"Incorrect token"})
-    if (decodedtoken.UserId != findTodo.userId)
-      return res.status(401).send({ status: false, msg: "Sorry,You cannot access" });
-
-    next(); //if match then move the execution to next
+    let decodedtoken = jwt.verify(token, "todo",function(err){
+      if(err){
+        return res.status(403).send({status:false,message:"Invalid Token",Error:err})
+      }else{
+next()
+      }
+    }) //if match then move the execution to next
   } catch (err) {
     res.status(500).send({ status: false, error: err.message });
   }

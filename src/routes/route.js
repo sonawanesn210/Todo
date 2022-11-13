@@ -15,7 +15,9 @@ router.get('/todo',authentication,getTodos)
 
 router.delete('/todo/:id',authentication,authorization,deleteTodo)
 
-/* router.all('*') */
+/* router.all('*',(req,res)=>{
+    res.status(404).send({status:false,message:"Page not found"})
+}) */
 
 
 module.exports=router
